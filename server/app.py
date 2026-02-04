@@ -10,6 +10,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 
 # Local imports
 from config import app, db, api, login_manager, bcrypt
+from schemas import tutor_schema
 # Add your model imports
 from models import User, Topic, TutorService, Request
 
@@ -35,13 +36,11 @@ class Login(Resource):
 
         user = User.query.filter_by(name=name).first()
 
-        # NOTE: this is a temporary plain-text check.
-        # Replace with bcrypt-based password verification later.
-        if not user or user.password != password:
+        if not user or not bcrypt.check_password_hash(user.password, password):
             return {"error": "Invalid credentials"}, 401
 
         login_user(user)
-        return {"id": user.id, "name": user.name, "role": user.role}, 200
+        return tutor_schema.dump(user), 200
     
 
 class Signup(Resource):
@@ -61,7 +60,8 @@ class Signup(Resource):
         if existing_user:
             return {"error": "name is already taken"}, 409
 
-        user = User(name=name, password=password, role=role)
+        password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
+        user = User(name=name, password=password_hash, role=role)
         db.session.add(user)
 
         try:
@@ -70,29 +70,46 @@ class Signup(Resource):
             db.session.rollback()
             return {"error": "could not create user"}, 500
 
-        # optional: auto-login right after signup
         login_user(user)
 
-        return {"id": user.id, "name": user.name, "role": user.role}, 201
+        return auth_tutor_schema.dump(user), 201
 
 
 class CheckSession(Resource):
     def get(self):
         if not current_user.is_authenticated:
             return {"error": "Not Authorized"}, 401
-        return {"id": current_user.id, "name": current_user.name, "role": current_user.role}, 200
+        return auth_tutor_schema.dump(current_user), 200
 
 
 class Logout(Resource):
     def delete(self):
         logout_user()
         return {}, 204
+    
+
+# class Topics(Resource):
+#     def get(self):
+#         topics = Topic.query.all()
+#         return topics_schema.dump(topics), 200
+
+
+# class TopicById(Resource):
+#     def get(self, id):
+#         topic = Topic.query.get(id)
+#         if not topic:
+#             return {"error": "Not Found"}, 404
+#         return topic_schema.dump(topic), 200
+
+
 
 
 api.add_resource(Login, "/login")
 api.add_resource(Signup, "/signup")
 api.add_resource(CheckSession, "/check_session")
 api.add_resource(Logout, "/logout")
+# api.add_resource(Topics, "/topics")
+# api.add_resource(TopicById, "/topics/<int:id>")
 
 
 if __name__ == '__main__':
