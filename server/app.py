@@ -11,6 +11,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 # Local imports
 from config import app, db, api, login_manager, bcrypt
 from schemas import tutor_schema
+from schemas import topics_schema
 # Add your model imports
 from models import User, Topic, TutorService, Request
 
@@ -88,10 +89,10 @@ class Logout(Resource):
         return {}, 204
     
 
-# class Topics(Resource):
-#     def get(self):
-#         topics = Topic.query.all()
-#         return topics_schema.dump(topics), 200
+class Topics(Resource):
+    def get(self):
+        topics = Topic.query.all()
+        return topics_schema.dump(topics), 200
 
 
 # class TopicById(Resource):
@@ -108,7 +109,7 @@ api.add_resource(Login, "/login")
 api.add_resource(Signup, "/signup")
 api.add_resource(CheckSession, "/check_session")
 api.add_resource(Logout, "/logout")
-# api.add_resource(Topics, "/topics")
+api.add_resource(Topics, "/topics")
 # api.add_resource(TopicById, "/topics/<int:id>")
 
 
