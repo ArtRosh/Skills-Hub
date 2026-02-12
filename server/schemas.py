@@ -76,7 +76,7 @@ topic_with_services_schema = TopicWithServicesSchema()
 topics_with_services_schema = TopicWithServicesSchema(many=True)
 
 
-# ---------- Tutor (what you dump in app.py) ----------
+# ---------- Tutor ----------
 class TutorSchema(ma.SQLAlchemySchema):
     class Meta:
         model = User
@@ -111,3 +111,108 @@ class TutorSchema(ma.SQLAlchemySchema):
 
 tutor_schema = TutorSchema()
 tutors_schema = TutorSchema(many=True)
+
+
+# ---------- Request with nested TutorService and Topic (for student view) ----------
+class TutorServiceForStudentSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = TutorService
+        load_instance = True
+
+    id = ma.auto_field()
+    rate = ma.auto_field()
+    description = ma.auto_field()
+
+    tutor_id = ma.auto_field()
+    topic_id = ma.auto_field()
+
+    topic = fields.Nested(TopicWithTutorsSchema)
+    tutor = fields.Nested(lambda: TutorInfoSchema())
+
+
+class TutorInfoSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = User
+        load_instance = True
+
+    id = ma.auto_field()
+    name = ma.auto_field()
+
+
+class RequestForStudentSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Request
+        load_instance = True
+
+    id = ma.auto_field()
+    status = ma.auto_field()
+    description = ma.auto_field()
+
+    student_id = ma.auto_field()
+    tutor_service_id = ma.auto_field()
+
+    tutor_service = fields.Nested(TutorServiceForStudentSchema)
+
+
+request_for_student_schema = RequestForStudentSchema()
+requests_for_student_schema = RequestForStudentSchema(many=True)
+
+
+# ---------- Student (what you dump in app.py) ----------
+class StudentSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = User
+        load_instance = True
+
+    id = ma.auto_field()
+    name = ma.auto_field()
+    role = ma.auto_field()
+
+    topics = fields.Method("get_topics_with_requests")
+
+    def get_topics_with_requests(self, user_obj):
+        topic_map = {}
+
+        # Group requests by topic and tutor_service
+        for req in user_obj.requests:
+            ts = req.tutor_service
+            t = ts.topic
+
+            # Create topic entry if doesn't exist
+            if t.id not in topic_map:
+                topic_map[t.id] = {
+                    "id": t.id,
+                    "topic": t.topic,
+                    "description": t.description,
+                    "tutor_services": {},
+                }
+
+            # Create tutor_service entry if doesn't exist
+            if ts.id not in topic_map[t.id]["tutor_services"]:
+                topic_map[t.id]["tutor_services"][ts.id] = {
+                    "id": ts.id,
+                    "rate": ts.rate,
+                    "description": ts.description,
+                    "tutor": {"id": ts.tutor.id, "name": ts.tutor.name},
+                    "requests": [],
+                }
+
+            # Add request
+            topic_map[t.id]["tutor_services"][ts.id]["requests"].append({
+                "id": req.id,
+                "status": req.status,
+                "description": req.description,
+            })
+
+        # Convert nested dicts to lists
+        result = []
+        for topic_id in sorted(topic_map.keys()):
+            topic_data = topic_map[topic_id]
+            topic_data["tutor_services"] = list(topic_data["tutor_services"].values())
+            result.append(topic_data)
+
+        return result
+
+
+student_schema = StudentSchema()
+students_schema = StudentSchema(many=True)
