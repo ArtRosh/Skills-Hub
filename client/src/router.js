@@ -8,7 +8,9 @@ import Signup from "./pages/Signup";
 import RequireAuth from "./components/RequireAuth";
 
 import Topics from "./pages/Topics";
-import Requests from "./pages/Requests";
+import TutorServiceRequests from "./pages/TutorServiceRequests";
+import StudentRequests from "./pages/StudentRequests";
+
 
 const routes = [
   {
@@ -24,7 +26,9 @@ const routes = [
 
       // protected
       { path: "topics", element: <RequireAuth><Topics /></RequireAuth> },
-      { path: "requests", element: <RequireAuth><Requests /></RequireAuth> },
+      { path: "requests", element: <RequireAuth><StudentRequests /></RequireAuth> },
+      { path: "tutor/:serviceId/requests", element: <RequireAuth><TutorServiceRequests /></RequireAuth> },
+      
     ],
   },
 ];
