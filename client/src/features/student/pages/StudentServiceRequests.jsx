@@ -7,9 +7,9 @@ function StudentServiceRequests() {
   const { topicId, serviceId } = useParams();
   const navigate = useNavigate();
   
-  const student = currentUser
-  const topic = student.topics.find(t => t.id === parseInt(topicId))
-  const service = topic.tutor_services.find(s => s.id === parseInt(serviceId))
+
+  const topic = currentUser?.topics?.find(t => t.id === parseInt(topicId))
+  const service = topic?.tutor_services?.find(s => s.id === parseInt(serviceId))
   
 
   if (!service) return <div>Loading...</div>;
