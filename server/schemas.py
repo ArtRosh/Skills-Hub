@@ -6,7 +6,27 @@ from models import User, Topic, TutorService, Request
 
 
 
-# ---------- PUBLIC TOPICS ----------
+# ---------- PUBLIC TOPICS WITH SERVICES----------
+
+class PublicTutorInfoSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = User
+        load_instance = True
+    id = ma.auto_field()
+    name = ma.auto_field()
+
+class PublicTutorServiceSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = TutorService
+        load_instance = True
+
+    id = ma.auto_field()
+    rate = ma.auto_field()
+    description = ma.auto_field()
+    tutor_id = ma.auto_field()
+    
+    tutor = fields.Nested(PublicTutorInfoSchema)
+
 class TopicWithTutorsSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Topic
@@ -15,6 +35,8 @@ class TopicWithTutorsSchema(ma.SQLAlchemySchema):
     id = ma.auto_field()
     topic = ma.auto_field()
     description = ma.auto_field()
+
+    tutor_services = fields.Nested(PublicTutorServiceSchema, many=True)
 
 
 topic_schema = TopicWithTutorsSchema()
