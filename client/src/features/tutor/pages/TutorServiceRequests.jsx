@@ -1,0 +1,65 @@
+import { useContext, useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import DataContext from "../../../context/DataContext";
+
+function TutorServiceRequests() {
+  const { currentUser } = useContext(DataContext);
+  const { topicId, serviceId } = useParams();
+  const navigate = useNavigate();
+
+  const topic = currentUser?.topics?.find((t) => t.id === parseInt(topicId));
+  const service = topic?.tutor_services?.find((s) => s.id === parseInt(serviceId));
+
+  if (!service) return <div>Loading...</div>;
+
+  const requests = service.requests || [];
+
+  return (
+    <div className="py-4">
+      <button className="btn btn-secondary mb-3" onClick={() => navigate("/tutor_topics")}>
+        ← Back
+      </button>
+
+      <div className="card mb-4">
+        <div className="card-body">
+          <h2 className="mb-3">{topic?.topic}</h2>
+          <p><strong>Rate:</strong> ${service.rate}/hour</p>
+          <p><strong>Description:</strong> {service.description || "No description"}</p>
+        </div>
+      </div>
+
+      <h3>Student Requests ({requests.length})</h3>
+      {requests.length === 0 ? (
+        <p className="text-muted">No requests for this service.</p>
+      ) : (
+        <div className="d-grid gap-2">
+          {requests.map((req) => (
+            <div key={req.id} className="card">
+              <div className="card-body">
+                <div className="d-flex justify-content-between align-items-start mb-2">
+                  <div>
+                    <p className="mb-1"><strong>Student:</strong> {req.student?.name}</p>
+                    <span
+                      className={`badge bg-${
+                        req.status === "pending"
+                          ? "warning"
+                          : req.status === "accepted"
+                          ? "success"
+                          : "danger"
+                      }`}
+                    >
+                      {req.status}
+                    </span>
+                  </div>
+                </div>
+                <p className="mb-0 text-muted">{req.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default TutorServiceRequests;
