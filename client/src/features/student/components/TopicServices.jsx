@@ -7,18 +7,15 @@ function TopicServices({ topic }) {
   return (
     <div className="card">
       <div className="card-body">
-        {/* Topic Header */}
         <h5 className="card-title mb-2">{topic.topic}</h5>
         <p className="card-text text-muted mb-4">{topic.description}</p>
 
-        {/* Services */}
         {services.length === 0 ? (
           <p className="text-muted small">No services in this topic</p>
         ) : (
           <div className="d-grid gap-2">
             {services.map((service) => (
               <div key={service.id}>
-                {/* Service Info Card */}
                 <div className="card">
                   <div className="card-body bg-light d-flex justify-content-between align-items-start">
                     <div className="flex-grow-1">
