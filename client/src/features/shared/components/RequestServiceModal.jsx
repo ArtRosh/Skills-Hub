@@ -71,6 +71,7 @@ function RequestServiceModal({ isOpen, onClose, service, topicName }) {
 
               <p><strong>Topic:</strong> {topicName}</p>
               <p><strong>Rate:</strong> ${service?.rate}/hr</p>
+              <p><strong>Description:</strong> {service?.description}</p>
 
               <div className="mb-3">
                 <label className="form-label" htmlFor="description">Description / Note</label>
