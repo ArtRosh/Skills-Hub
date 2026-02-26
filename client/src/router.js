@@ -10,6 +10,7 @@ import StudentTopics from "./features/student/pages/StudentTopics";
 import StudentServiceRequests from "./features/student/pages/StudentServiceRequests";
 import RequestServiceModal from "./features/shared/pages/RequestServiceModal";
 import RequireStudent from "./features/shared/components/RequireStudent";
+import RequireTutor from "./features/shared/components/RequireTutor";
 import NotAuthorized from "./features/shared/pages/NotAuthorized";
 
 
@@ -26,10 +27,10 @@ const routes = [
       { path: "signup", element: <Signup /> },
 
       // protected
-      { path: "tutor_topics", element: <RequireAuth><TutorTopics /></RequireAuth> },
-      { path: "student_topics", element: <RequireAuth><StudentTopics /></RequireAuth> },
-      { path: "student/topic/:topicId/service/:serviceId/requests", element: <RequireAuth><StudentServiceRequests /></RequireAuth> },
-      { path: "tutor/topic/:topicId/service/:serviceId/requests", element: <RequireAuth><TutorServiceRequests /></RequireAuth> },
+      { path: "tutor_topics", element: <RequireAuth><RequireTutor><TutorTopics /></RequireTutor></RequireAuth> },
+      { path: "student_topics", element: <RequireAuth><RequireStudent><StudentTopics /></RequireStudent></RequireAuth> },
+      { path: "student/topic/:topicId/service/:serviceId/requests", element: <RequireAuth><RequireStudent><StudentServiceRequests /></RequireStudent></RequireAuth> },
+      { path: "tutor/topic/:topicId/service/:serviceId/requests", element: <RequireAuth><RequireTutor><TutorServiceRequests /></RequireTutor></RequireAuth> },
       { path: "topic/:topicId/service/:serviceId/request", element: <RequireAuth><RequireStudent><RequestServiceModal /></RequireStudent></RequireAuth> },
       { path: "not-authorized", element: <NotAuthorized /> },
     ],
