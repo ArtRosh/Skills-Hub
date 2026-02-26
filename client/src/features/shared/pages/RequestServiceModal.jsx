@@ -12,18 +12,14 @@ function RequestServiceModal() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Prefer user topics if logged in as student, else fallback to public topics
-  let topic, service;
-  if (currentUser?.role === "student" && Array.isArray(currentUser.topics)) {
-    topic = currentUser.topics.find((t) => String(t.id) === topicId);
-    service = topic?.tutor_services?.find((s) => String(s.id) === serviceId);
-  }
-  if (!topic || !service) {
-    topic = topics.find((t) => String(t.id) === topicId);
-    service = topic?.tutor_services?.find((s) => String(s.id) === serviceId);
-  }
+  
+  const topic = currentUser?.topics?.find((t) => String(t.id) === topicId);
+  const service = topic?.tutor_services?.find((s) => String(s.id) === serviceId);
+
 
   
+
+
   const validationSchema = Yup.object().shape({
     description: Yup.string(),
   });
