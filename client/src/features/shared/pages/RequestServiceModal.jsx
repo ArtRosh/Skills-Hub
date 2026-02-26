@@ -8,7 +8,7 @@ import * as Yup from "yup";
 function RequestServiceModal() {
   const { topicId, serviceId } = useParams();
   const navigate = useNavigate();
-  const { topics, currentUser, setCurrentUser, setTopics } = useContext(DataContext);
+  const { currentUser, setCurrentUser } = useContext(DataContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -65,13 +65,6 @@ function RequestServiceModal() {
           );
           const updatedUser = { ...currentUser, topics: updatedTopics };
           setCurrentUser(updatedUser);
-          // Also update topics in context for route-based modal state sync
-          if (topics && setTopics) {
-            const updatedTopicsList = topics.map((t) =>
-              t.id === topic.id ? updatedTopic : t
-            );
-            setTopics(updatedTopicsList);
-          }
           formik.resetForm();
           navigate(`/student/topic/${topic.id}/service/${service.id}/requests`);
         })
