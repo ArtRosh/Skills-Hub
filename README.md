@@ -4,6 +4,10 @@ Skills-Hab is a full-stack tutoring platform where:
 - **Tutors** create and manage services by topic.
 - **Students** browse services and create learning requests.
 
+## Demo
+
+![App Workflow Demo](client/public/screenshots/app-demo.gif)
+
 ## Tech Stack
 
 ### Frontend
