@@ -17,6 +17,7 @@ flask-login = "*"
 flask-bcrypt = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+python-dotenv = "*"
 
 [requires]
 python_full_version = "3.9.18"

@@ -1,5 +1,5 @@
 # Remote library imports
-import  os
+import os
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -9,8 +9,10 @@ from sqlalchemy import MetaData
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_marshmallow import Marshmallow
+from dotenv import load_dotenv
 
-
+# Load environment variables from .env file
+load_dotenv()
 
 # Instantiate app, set attributes
 app = Flask(__name__)

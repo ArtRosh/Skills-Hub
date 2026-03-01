@@ -35,12 +35,37 @@ Skills-Hab is a full-stack tutoring platform where:
 ```bash
 pipenv install
 pipenv shell
+```
+
+### 2) Environment Setup
+
+Create a `.env` file in the `server/` directory:
+
+```bash
+cp server/.env.example server/.env
+```
+
+Generate a secure secret key and add it to `server/.env`:
+
+```bash
+python -c "import secrets; print(secrets.token_hex(32))"
+```
+
+Copy the output and replace `your-secret-key-here` in `server/.env`:
+
+```
+SECRET_KEY=your-generated-key
+```
+
+### 3) Run Backend
+
+```bash
 python server/app.py
 ```
 
 Backend runs at: `http://localhost:5555`
 
-### 2) Frontend
+### 4) Frontend
 
 ```bash
 npm install --prefix client
