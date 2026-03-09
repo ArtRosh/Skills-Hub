@@ -53,7 +53,7 @@ function RequestServiceModal() {
             navigate(-1);
             return;
           }
-          // Step-by-step update: add newRequest to the correct service in currentUser
+          
           const updatedRequests = [...(service.requests || []), newRequest];
           const updatedService = { ...service, requests: updatedRequests };
           const updatedServices = (topic.tutor_services || []).map((s) =>
@@ -73,7 +73,6 @@ function RequestServiceModal() {
     },
   });
 
-  // Now do the early return after all hooks
   if (!topic || !service) {
     navigate(-1);
     return null;

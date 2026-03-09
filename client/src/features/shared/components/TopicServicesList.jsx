@@ -13,11 +13,10 @@ function TopicServicesList({ topic }) {
   return (
     <div className="card">
       <div className="card-body">
-        {/* Topic Header */}
+        
         <h5 className="card-title mb-2">{topic.topic}</h5>
         <p className="card-text text-muted mb-4">{topic.description}</p>
 
-        {/* Services */}
         {isTutor ? null : services.length === 0 ? (
           <p className="text-muted small">No tutors available for this topic yet.</p>
         ) : (
