@@ -1,4 +1,3 @@
-import React from "react";
 import { useContext } from "react";
 import DataContext from "../../../context/DataContext";
 import { Navigate } from "react-router-dom";
