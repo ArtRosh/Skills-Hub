@@ -5,6 +5,7 @@ import DataContext from "../../../context/DataContext";
 function RequireAuth({ children }) {
   const { currentUser } = useContext(DataContext);
 
+  // Redirect unauthenticated users to the login page
   if (!currentUser) return <Navigate to="/login" replace />;
 
   return children;
