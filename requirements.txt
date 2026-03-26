@@ -11,3 +11,4 @@ faker
 ipdb
 werkzeug
 gunicorn
+psycopg2-binary
