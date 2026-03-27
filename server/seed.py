@@ -1,6 +1,6 @@
 from faker import Faker
-from config import app, db, bcrypt
-from models import User, Topic, TutorService, Request
+from server.config import app, db, bcrypt
+from server.models import User, Topic, TutorService, Request
 
 fake = Faker()
 
