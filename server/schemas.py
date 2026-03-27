@@ -1,6 +1,6 @@
 from marshmallow import fields
 from server.config import ma
-from models import User, Topic, TutorService, Request
+from server.models import User, Topic, TutorService, Request
 
 
 
