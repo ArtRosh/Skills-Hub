@@ -15,7 +15,7 @@ export function DataProvider({ children }) {
 
   // Auth check (session)
   useEffect(() => {
-    fetch("/check_session", { credentials: "include" })
+    fetch("/api/check_session", { credentials: "include" })
       .then((r) => {
         if (!r.ok) throw new Error("Not Authorized");
         return r.json();
@@ -29,7 +29,7 @@ export function DataProvider({ children }) {
 
   // Public topics (Home)
   useEffect(() => {
-    fetch("/topics", { credentials: "include" }) 
+    fetch("/api/topics", { credentials: "include" }) 
       .then((r) => {
         if (!r.ok) throw new Error("Failed to load topics");
         return r.json();
@@ -41,7 +41,7 @@ export function DataProvider({ children }) {
   }, []);
 
   function login(payload) {
-    return fetch("/login", {
+    return fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -60,13 +60,13 @@ export function DataProvider({ children }) {
   }
 
   function logout() {
-    return fetch("/logout", { method: "DELETE", credentials: "include" }).then(
+    return fetch("/api/logout", { method: "DELETE", credentials: "include" }).then(
       () => setCurrentUser(null)
     );
   }
 
   function signup(payload) {
-    return fetch("/signup", {
+    return fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
