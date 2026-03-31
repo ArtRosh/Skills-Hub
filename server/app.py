@@ -280,6 +280,8 @@ api.add_resource(RequestUpdate, "/api/requests/<int:id>")
 
 @app.errorhandler(404)
 def not_found(e):
+    if request.path.startswith("/api/"):
+        return {"error": "Not found"}, 404
     return render_template("index.html")
 
 
