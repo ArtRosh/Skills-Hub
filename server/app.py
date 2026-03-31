@@ -20,7 +20,7 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return {"message": "Skills-Hab API is running"}
+    return render_template("index.html")
 
 
 class Login(Resource):
