@@ -1,5 +1,5 @@
 # Remote library imports
-from flask import request
+from flask import request, Flask, render_template
 from flask_restful import Resource
 from flask_login import login_user, logout_user, current_user   
 
