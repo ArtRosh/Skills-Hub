@@ -24,7 +24,7 @@ function TutorServiceRequests() {
     setError("");
     setUpdatingRequestId(requestId);
 
-    fetch(`/requests/${requestId}`, {
+    fetch(`/api/requests/${requestId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
