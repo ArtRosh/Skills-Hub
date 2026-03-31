@@ -268,14 +268,14 @@ class RequestUpdate(Resource):
 
 
 
-api.add_resource(Login, "/login")
-api.add_resource(Signup, "/signup")
-api.add_resource(CheckSession, "/check_session")
-api.add_resource(Logout, "/logout")
-api.add_resource(Topics, "/topics")
-api.add_resource(TutorServiceResource, "/tutor_services", "/tutor_services/<int:id>")
-api.add_resource(RequestResource, "/requests")
-api.add_resource(RequestUpdate, "/requests/<int:id>")
+api.add_resource(Login, "/api/login")
+api.add_resource(Signup, "/api/signup")
+api.add_resource(CheckSession, "/api/check_session")
+api.add_resource(Logout, "/api/logout")
+api.add_resource(Topics, "/api/topics")
+api.add_resource(TutorServiceResource, "/api/tutor_services", "/api/tutor_services/<int:id>")
+api.add_resource(RequestResource, "/api/requests")
+api.add_resource(RequestUpdate, "/api/requests/<int:id>")
 
 
 @app.errorhandler(404)
