@@ -1,5 +1,6 @@
 from flask_login import UserMixin
 from server.config import db
+from datetime import datetime
 
 
 class User(db.Model, UserMixin):
@@ -15,6 +16,8 @@ class User(db.Model, UserMixin):
     topics = db.relationship("Topic", secondary="tutor_services", viewonly=True, back_populates="tutors")
 
     requests = db.relationship("Request", foreign_keys="Request.student_id", back_populates="student", cascade="all, delete-orphan")
+
+    sent_messages = db.relationship("Message", back_populates="sender", cascade="all, delete-orphan")
 
 
 class Topic(db.Model):
@@ -59,3 +62,19 @@ class Request(db.Model):
     student = db.relationship("User", foreign_keys=[student_id], back_populates="requests")
     
     tutor_service = db.relationship("TutorService", back_populates="requests")
+
+    messages = db.relationship("Message", back_populates="request", cascade="all, delete-orphan")
+
+
+class Message(db.Model):
+    __tablename__ = "messages"
+
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    sender_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    request_id = db.Column(db.Integer, db.ForeignKey("requests.id"), nullable=False)
+
+    sender = db.relationship("User", back_populates="sent_messages")
+    request = db.relationship("Request", back_populates="messages")
