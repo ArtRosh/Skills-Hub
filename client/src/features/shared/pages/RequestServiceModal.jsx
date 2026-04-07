@@ -8,7 +8,7 @@ import * as Yup from "yup";
 function RequestServiceModal() {
   const { topicId, serviceId } = useParams();
   const navigate = useNavigate();
-  const { topics,currentUser, setCurrentUser } = useContext(DataContext);
+  const { topics, currentUser, setCurrentUser } = useContext(DataContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -70,10 +70,9 @@ function RequestServiceModal() {
     },
   });
 
-  if (!topic || !service) {
-    navigate(-1);
-    return null;
-  }
+  // if (!topic || !service) {
+  // return <div>Loading...</div>;
+  // }
 
   return (
     <div
