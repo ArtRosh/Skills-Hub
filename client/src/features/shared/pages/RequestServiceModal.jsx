@@ -51,16 +51,80 @@ function RequestServiceModal() {
             return;
           }
           
-          const updatedRequests = [...(service.requests || []), newRequest];
-          const updatedService = { ...service, requests: updatedRequests };
-          const updatedServices = (topic.tutor_services || []).map((s) =>
-            s.id === service.id ? updatedService : s
-          );
-          const updatedTopic = { ...topic, tutor_services: updatedServices };
-          const updatedTopics = (currentUser.topics || []).map((t) =>
-            t.id === topic.id ? updatedTopic : t
-          );
-          const updatedUser = { ...currentUser, topics: updatedTopics };
+          const updatedUser = {
+            ...currentUser,
+            topics: (() => {
+              const userTopics = currentUser.topics || [];
+
+              // 1. Найти topic
+              const existingTopic = userTopics.find(t => t.id === topic.id);
+
+              // ❗ ЕСЛИ topic НЕ существует → создаём полностью
+              if (!existingTopic) {
+                return [
+                  ...userTopics,
+                  {
+                    id: topic.id,
+                    topic: topic.topic,
+                    description: topic.description,
+                    tutor_services: [
+                      {
+                        id: service.id,
+                        rate: service.rate,
+                        description: service.description,
+                        tutor_id: service.tutor_id,
+                        topic_id: service.topic_id,
+                        tutor: service.tutor,
+                        requests: [newRequest],
+                      },
+                    ],
+                  },
+                ];
+              }
+
+              // 2. Topic есть → проверяем service
+              const existingService = existingTopic.tutor_services?.find(
+                s => s.id === service.id
+              );
+
+              return userTopics.map(t => {
+                if (t.id !== topic.id) return t;
+
+                // ❗ ЕСЛИ service НЕ существует → добавляем
+                if (!existingService) {
+                  return {
+                    ...t,
+                    tutor_services: [
+                      ...(t.tutor_services || []),
+                      {
+                        id: service.id,
+                        rate: service.rate,
+                        description: service.description,
+                        tutor_id: service.tutor_id,
+                        topic_id: service.topic_id,
+                        tutor: service.tutor,
+                        requests: [newRequest],
+                      },
+                    ],
+                  };
+                }
+
+                // 3. Всё есть → просто добавляем request
+                return {
+                  ...t,
+                  tutor_services: t.tutor_services.map(s => {
+                    if (s.id !== service.id) return s;
+
+                    return {
+                      ...s,
+                      requests: [...(s.requests || []), newRequest],
+                    };
+                  }),
+                };
+              });
+            })(),
+          };
+
           setCurrentUser(updatedUser);
           formik.resetForm();
           navigate(`/student/topic/${topic.id}/service/${service.id}/requests`);
