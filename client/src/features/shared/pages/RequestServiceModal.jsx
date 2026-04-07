@@ -8,12 +8,12 @@ import * as Yup from "yup";
 function RequestServiceModal() {
   const { topicId, serviceId } = useParams();
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useContext(DataContext);
+  const { topics,currentUser, setCurrentUser } = useContext(DataContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   
-  const topic = currentUser?.topics?.find((t) => String(t.id) === topicId);
+  const topic = topics?.find((t) => String(t.id) === topicId);
   const service = topic?.tutor_services?.find((s) => String(s.id) === serviceId);
 
 
