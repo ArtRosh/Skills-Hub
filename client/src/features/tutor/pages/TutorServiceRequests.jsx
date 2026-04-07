@@ -101,6 +101,14 @@ function TutorServiceRequests() {
                   </div>
 
                   <div className="d-flex gap-2">
+                    {req.status === "accepted" && (
+                      <button
+                        className="btn btn-outline-primary btn-sm"
+                        onClick={() => navigate(`/requests/${req.id}/chat`)}
+                      >
+                        Open Chat
+                      </button>
+                    )}
                     <button
                       className="btn btn-success btn-sm"
                       onClick={() => updateRequestStatus(req.id, "accepted")}

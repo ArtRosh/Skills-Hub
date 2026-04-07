@@ -63,15 +63,20 @@ class Request(db.Model):
     
     tutor_service = db.relationship("TutorService", back_populates="requests")
 
-    messages = db.relationship("Message", back_populates="request", cascade="all, delete-orphan")
+    messages = db.relationship(
+        "Message",
+        back_populates="request",
+        cascade="all, delete-orphan",
+        order_by="Message.created_at",
+    )
 
 
 class Message(db.Model):
     __tablename__ = "messages"
 
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False, index=True)
 
     sender_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     request_id = db.Column(db.Integer, db.ForeignKey("requests.id"), nullable=False)

@@ -1,16 +1,22 @@
+import os
+
 # Remote library imports
 from flask import request, render_template
 from flask_restful import Resource
 from flask_login import login_user, logout_user, current_user   
+from flask_socketio import SocketIO, join_room, emit
 
 
 # Local imports
 from server.config import app, db, api, login_manager, bcrypt
 from server.schemas import tutor_schema, topic_schema, student_schema
 from server.schemas import topics_schema
-from server.schemas import tutor_service_for_tutor_schema, request_schema
+from server.schemas import tutor_service_for_tutor_schema, request_schema, message_schema, messages_schema
 # Add your model imports
-from server.models import User, Topic, TutorService, Request
+from server.models import User, Topic, TutorService, Request, Message
+
+
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Views go here!
 
@@ -266,6 +272,110 @@ class RequestUpdate(Resource):
         return self.patch(id)
 
 
+def _get_accessible_request(request_id):
+    req = db.session.get(Request, request_id)
+    if not req:
+        return None, ({"error": "Request not found"}, 404)
+
+    if not current_user.is_authenticated:
+        return None, ({"error": "Not logged in"}, 401)
+
+    if req.status != "accepted":
+        return None, ({"error": "Chat is only available after the request is accepted"}, 403)
+
+    tutor_id = req.tutor_service.tutor_id
+    if current_user.id not in (req.student_id, tutor_id):
+        return None, ({"error": "Unauthorized"}, 403)
+
+    return req, None
+
+
+class RequestMessages(Resource):
+    def get(self, id):
+        req, error = _get_accessible_request(id)
+        if error:
+            return error
+
+        return messages_schema.dump(req.messages), 200
+
+    def post(self, id):
+        req, error = _get_accessible_request(id)
+        if error:
+            return error
+
+        data = request.get_json() or {}
+        content = (data.get("content") or "").strip()
+
+        if not content:
+            return {"error": "content is required"}, 400
+
+        new_message = Message(
+            content=content,
+            sender_id=current_user.id,
+            request_id=req.id,
+        )
+
+        db.session.add(new_message)
+        db.session.commit()
+
+        payload = message_schema.dump(new_message)
+        socketio.emit("new_message", payload, room=f"request_{req.id}")
+        return payload, 201
+
+
+@socketio.on("connect")
+def connect():
+    if not current_user.is_authenticated:
+        return False
+
+
+@socketio.on("join_chat")
+def join_chat(data):
+    request_id = (data or {}).get("request_id")
+    if not request_id:
+        emit("error", {"error": "request_id is required"})
+        return
+
+    req, error = _get_accessible_request(request_id)
+    if error:
+        emit("error", error[0])
+        return
+
+    join_room(f"request_{req.id}")
+    emit("chat_joined", {"request_id": req.id, "messages": messages_schema.dump(req.messages)})
+
+
+@socketio.on("send_message")
+def send_message(data):
+    request_id = (data or {}).get("request_id")
+    content = (data or {}).get("content", "").strip()
+
+    if not request_id:
+        emit("error", {"error": "request_id is required"})
+        return
+
+    req, error = _get_accessible_request(request_id)
+    if error:
+        emit("error", error[0])
+        return
+
+    if not content:
+        emit("error", {"error": "content is required"})
+        return
+
+    new_message = Message(
+        content=content,
+        sender_id=current_user.id,
+        request_id=req.id,
+    )
+
+    db.session.add(new_message)
+    db.session.commit()
+
+    payload = message_schema.dump(new_message)
+    emit("new_message", payload, room=f"request_{req.id}")
+
+
 
 
 api.add_resource(Login, "/api/login")
@@ -276,6 +386,7 @@ api.add_resource(Topics, "/api/topics")
 api.add_resource(TutorServiceResource, "/api/tutor_services", "/api/tutor_services/<int:id>")
 api.add_resource(RequestResource, "/api/requests")
 api.add_resource(RequestUpdate, "/api/requests/<int:id>")
+api.add_resource(RequestMessages, "/api/requests/<int:id>/messages")
 
 
 @app.errorhandler(404)
@@ -286,5 +397,7 @@ def not_found(e):
 
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    port = int(os.environ.get("PORT", 5555))
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    socketio.run(app, host="0.0.0.0", port=port, debug=debug)
 
