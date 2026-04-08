@@ -51,16 +51,80 @@ function RequestServiceModal() {
             return;
           }
           
-          const updatedRequests = [...(service.requests || []), newRequest];
-          const updatedService = { ...service, requests: updatedRequests };
-          const updatedServices = (topic.tutor_services || []).map((s) =>
-            s.id === service.id ? updatedService : s
-          );
-          const updatedTopic = { ...topic, tutor_services: updatedServices };
-          const updatedTopics = (currentUser.topics || []).map((t) =>
-            t.id === topic.id ? updatedTopic : t
-          );
-          const updatedUser = { ...currentUser, topics: updatedTopics };
+          const updatedUser = {
+            ...currentUser,
+            topics: (() => {
+              const userTopics = currentUser.topics || [];
+
+              // 1. Find the topic
+              const existingTopic = userTopics.find(t => t.id === topic.id);
+
+              // If the topic does not exist, create it from scratch
+              if (!existingTopic) {
+                return [
+                  ...userTopics,
+                  {
+                    id: topic.id,
+                    topic: topic.topic,
+                    description: topic.description,
+                    tutor_services: [
+                      {
+                        id: service.id,
+                        rate: service.rate,
+                        description: service.description,
+                        tutor_id: service.tutor_id,
+                        topic_id: service.topic_id,
+                        tutor: service.tutor,
+                        requests: [newRequest],
+                      },
+                    ],
+                  },
+                ];
+              }
+
+              // 2. The topic exists, so check the service
+              const existingService = existingTopic.tutor_services?.find(
+                s => s.id === service.id
+              );
+
+              return userTopics.map(t => {
+                if (t.id !== topic.id) return t;
+
+                // If the service does not exist, add it
+                if (!existingService) {
+                  return {
+                    ...t,
+                    tutor_services: [
+                      ...(t.tutor_services || []),
+                      {
+                        id: service.id,
+                        rate: service.rate,
+                        description: service.description,
+                        tutor_id: service.tutor_id,
+                        topic_id: service.topic_id,
+                        tutor: service.tutor,
+                        requests: [newRequest],
+                      },
+                    ],
+                  };
+                }
+
+                // Everything exists, so just add the request
+                return {
+                  ...t,
+                  tutor_services: t.tutor_services.map(s => {
+                    if (s.id !== service.id) return s;
+
+                    return {
+                      ...s,
+                      requests: [...(s.requests || []), newRequest],
+                    };
+                  }),
+                };
+              });
+            })(),
+          };
+
           setCurrentUser(updatedUser);
           formik.resetForm();
           navigate(`/student/topic/${topic.id}/service/${service.id}/requests`);
@@ -71,8 +135,7 @@ function RequestServiceModal() {
   });
 
   if (!topic || !service) {
-    navigate(-1);
-    return null;
+  return <div>Loading...</div>;
   }
 
   return (
