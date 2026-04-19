@@ -13,7 +13,7 @@ function SkillsHubLanding() {
       const span = document.createElement("span");
       span.textContent = titleText[i];
       span.classList.add("handwriting");
-      span.style.animationDelay = `${i * 0.1}s`;
+      span.style.animationDelay = `${i * 0.25}s`;
       titleElement.appendChild(span);
     }
   }, []);
