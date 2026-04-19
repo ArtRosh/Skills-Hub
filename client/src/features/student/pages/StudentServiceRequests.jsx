@@ -40,17 +40,28 @@ function StudentServiceRequests() {
             <div key={req.id} className="card">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-start mb-2">
-                  <span
-                    className={`badge bg-${
-                      req.status === "pending"
-                        ? "warning"
-                        : req.status === "accepted"
-                        ? "success"
-                        : "danger"
-                    }`}
-                  >
-                    {req.status}
-                  </span>
+                  <div className="d-flex gap-2 align-items-center">
+                    <span
+                      className={`badge bg-${
+                        req.status === "pending"
+                          ? "warning"
+                          : req.status === "accepted"
+                          ? "success"
+                          : "danger"
+                      }`}
+                    >
+                      {req.status}
+                    </span>
+
+                    {req.status === "accepted" && (
+                      <button
+                        className="btn btn-outline-primary btn-sm"
+                        onClick={() => navigate(`/requests/${req.id}/chat`)}
+                      >
+                        Open Chat
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <p className="mb-0 text-muted">{req.description}</p>
               </div>

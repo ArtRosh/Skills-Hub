@@ -1,6 +1,6 @@
 from marshmallow import fields
 from server.config import ma
-from server.models import User, Topic, TutorService, Request
+from server.models import User, Topic, TutorService, Request, Message
 
 
 
@@ -70,9 +70,39 @@ class RequestSchema(ma.SQLAlchemySchema):
     tutor_service_id = ma.auto_field()
     
     student = fields.Nested(StudentInfoSchema)
+    messages = fields.Nested(lambda: MessageSchema(), many=True)
 
 request_schema = RequestSchema()
 requests_schema = RequestSchema(many=True)
+
+
+# ---------- Message ----------
+class MessageUserSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = User
+        load_instance = True
+
+    id = ma.auto_field()
+    name = ma.auto_field()
+    role = ma.auto_field()
+
+
+class MessageSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Message
+        load_instance = True
+
+    id = ma.auto_field()
+    content = ma.auto_field()
+    created_at = ma.auto_field()
+    sender_id = ma.auto_field()
+    request_id = ma.auto_field()
+
+    sender = fields.Nested(MessageUserSchema)
+
+
+message_schema = MessageSchema()
+messages_schema = MessageSchema(many=True)
 
 
 # ---------- TutorService ----------

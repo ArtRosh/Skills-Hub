@@ -1,0 +1,161 @@
+.site-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1600);
+    background-position: center;
+    animation: fade 16s infinite;
+    color: aliceblue;
+    }
+    
+    .site-title-container h1 {
+    font-size: 115px;
+    font-family: garamond;
+    text-align: center;
+    }
+    
+    .handwriting {
+    animation: handwriting 0.5s forwards;
+    opacity: 0;
+    }
+
+    .skills-description {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    background: #111;
+    color: white;
+    }
+
+    .section-card {
+    background: #1c1c1c;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    
+    .skills-description h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    border-left: 4px solid #00bcd4;
+    padding-left: 12px;
+    }
+
+    .skills-description h3 {
+    margin-top: 20px;
+    color: #00bcd4;
+    }
+
+    .skills-description ul {
+    padding-left: 20px;
+    }
+
+    .skills-description li {
+    margin-bottom: 8px;
+    }
+
+    .section-card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+    }
+
+    .steps {
+    padding-left: 20px;
+    }
+
+    .steps li {
+    margin-bottom: 10px;
+    font-weight: 500;
+    }
+
+    .two-columns {
+    display: flex;
+    gap: 40px;
+    }
+
+    .two-columns > div {
+    flex: 1;
+    }
+
+    .action {
+    text-align: center;
+    }
+
+    .start-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    background: #00bcd4;
+    color: black;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    }
+
+    .start-btn:hover {
+    background: #0097a7;
+    }
+
+    .step-with-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    }
+
+    .inline-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    background: #00bcd4;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+
+    .inline-btn:hover {
+    background: #0097a7;
+    }
+
+    .inline-link {
+    color: #00bcd4;
+    text-decoration: none;
+    font-weight: 500;
+    }
+
+    .inline-link:hover {
+    text-decoration: underline;
+    }
+
+    @keyframes handwriting {
+    from {
+    opacity: 0;
+    }
+    to {
+    opacity: 1;
+    }
+    }
+    
+    
+    @keyframes fade {
+    0% {
+    }
+    25%{
+    opacity: 1;
+    background-image: url(https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    }
+    50% {
+    opacity: 1;
+    background-image: url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    }
+    75% {
+    opacity: 1;
+    background-image: url(https://images.unsplash.com/photo-1579097380689-4351e0a200ed?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    }
+    100% {
+    opacity: 2;
+    background-image: url(https://images.unsplash.com/photo-1569878766010-17bff0a1987d?q=80&w=930&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    }
+    }

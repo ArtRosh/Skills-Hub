@@ -36,7 +36,7 @@ metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
 db = SQLAlchemy(metadata=metadata)
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, directory=os.path.join(os.path.dirname(__file__), "migrations"))
 db.init_app(app) 
 
 # Instantiate REST API
