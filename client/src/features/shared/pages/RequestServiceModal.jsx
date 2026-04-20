@@ -165,7 +165,7 @@ function RequestServiceModal() {
               <p><strong>Description:</strong> {service?.description}</p>
 
               <div className="mb-3">
-                <label className="form-label" htmlFor="description">Description / Note</label>
+                <label className="form-label" htmlFor="description">Description / Note (optional)</label>
                 <textarea
                   id="description"
                   name="description"
