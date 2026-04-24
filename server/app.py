@@ -169,7 +169,7 @@ class TutorServiceResource(Resource):
         if service.tutor_id != current_user.id:
             return {"error": "Unauthorized"}, 403
         
-        data = request.get_json()
+        data = request.get_json() or {}
         service.rate = data.get("rate", service.rate)
         service.description = data.get("description", service.description)
         service.topic_id = data.get("topic_id", service.topic_id)
