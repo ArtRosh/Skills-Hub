@@ -1,10 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./SkillsHubLanding.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom"
 
+const landingImages = [
+  "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1600",
+  "https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1579097380689-4351e0a200ed?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1569878766010-17bff0a1987d?q=80&w=930&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+];
+
 function SkillsHubLanding() {
   const navigate = useNavigate();
+  const [imagesReady, setImagesReady] = useState(false);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    Promise.all(
+      landingImages.map(
+        (src) =>
+          new Promise((resolve) => {
+            const image = new Image();
+            image.src = src;
+            image.onload = resolve;
+            image.onerror = resolve;
+          })
+      )
+    ).then(() => {
+      if (!isCancelled) {
+        setImagesReady(true);
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const titleElement = document.getElementById("skills-title");
@@ -24,7 +57,7 @@ function SkillsHubLanding() {
 
   return (
     <>
-      <div className="site-title-container">
+      <div className={`site-title-container ${imagesReady ? "is-ready" : ""}`}>
         <h1 id="skills-title">Skills Hub</h1>
       </div>
 
