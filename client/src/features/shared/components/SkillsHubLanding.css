@@ -4,9 +4,14 @@
     align-items: center;
     height: 85vh;
     background-image: url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1600);
+    background-size: cover;
     background-position: center;
-    animation: fade 16s infinite;
+    background-color: #101820;
     color: aliceblue;
+    }
+
+    .site-title-container.is-ready {
+    animation: fade 16s infinite;
     }
     
     .site-title-container h1 {
