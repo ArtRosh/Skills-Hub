@@ -26,7 +26,7 @@ function Signup() {
       setServerError(null);
 
       signup(values)
-        .then(() => navigate("/", { replace: true }))
+        .then(() => navigate("/topics", { replace: true }))
         .catch((err) => setServerError(err.message))
         .finally(() => setSubmitting(false));
     },
