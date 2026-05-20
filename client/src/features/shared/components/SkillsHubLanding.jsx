@@ -126,7 +126,7 @@ function SkillsHubLanding() {
           <div className="cta-buttons">
             <button
               className="start-btn"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("topics")}
             >
               Go to Topics
             </button>
