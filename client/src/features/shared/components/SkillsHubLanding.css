@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 85vh;
-    background-image: url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1600);
+    background-image: url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1000);
     background-size: cover;
     background-position: center;
     background-color: #101820;
@@ -147,20 +147,20 @@
     @keyframes fade {
     0% {
     }
-    25%{
+    30%{
     opacity: 1;
-    background-image: url(https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    background-image: url(https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
     }
-    50% {
+    55% {
     opacity: 1;
-    background-image: url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    background-image: url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
     }
-    75% {
+    80% {
     opacity: 1;
-    background-image: url(https://images.unsplash.com/photo-1579097380689-4351e0a200ed?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    background-image: url(https://images.unsplash.com/photo-1579097380689-4351e0a200ed?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
     }
     100% {
-    opacity: 2;
-    background-image: url(https://images.unsplash.com/photo-1569878766010-17bff0a1987d?q=80&w=930&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    opacity: 1;
+    background-image: url(https://images.unsplash.com/photo-1569878766010-17bff0a1987d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
     }
     }
