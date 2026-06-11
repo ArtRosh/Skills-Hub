@@ -3,15 +3,15 @@
     justify-content: center;
     align-items: center;
     height: 90vh;
-    background-image: url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1100);
-    background-size: cover;
+    background-image: url(https://images.unsplash.com/photo-1630239037684-0753a96a082f?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    background-size: 1200px 1000px;
     background-position: center;
     background-color: #101820;
     color: aliceblue;
     }
 
     .site-title-container.is-ready {
-    animation: fade 16s infinite;
+    animation: fade 18s infinite;
     }
     
     .site-title-container h1 {
@@ -147,16 +147,16 @@
     @keyframes fade {
     0% {
     }
-    60%{
-    opacity: 1;
-    background-image: url(https://images.unsplash.com/photo-1579097380689-4351e0a200ed?q=80&w=700&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    50%{
+    
+    background-image: url(https://images.unsplash.com/photo-1531079997448-485eb7235a2b?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
     }
     75% {
-    opacity: 1;
-    background-image: url(https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=500&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3)
+    
+    background-image: url(https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3)
     }
     100% {
-    opacity: 1;
-    background-image: url(https://images.unsplash.com/photo-1569878766010-17bff0a1987d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+    
+    background-image: url(https://images.unsplash.com/photo-1569878766010-17bff0a1987d?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
     }
     }
