@@ -58,7 +58,7 @@ function SkillsHubLanding() {
   return (
     <>
       <div className={`site-title-container ${imagesReady ? "is-ready" : ""}`}>
-        <h1 id="skills-title">Skills Hub</h1>
+        <h1 id="skills-title">Skills-Hub</h1>
       </div>
 
       <div className="skills-description">
